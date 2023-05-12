@@ -17,7 +17,7 @@
 <script src="{{ secure_asset('js/app.js') }}"></script>
 
 <style>
-    #mapid { margin-left: 20px; margin-top: 20px; height: 550px; width: 1325px; border: 5px solid white; border-radius: 10px; }
+    #mapid { padding: 20px; margin-top: 20px; height: 490px; width: 100%; border: 5px solid white; border-radius: 10px; }
 </style>
 @endsection
 @push('scripts')
@@ -29,7 +29,7 @@
 <script>    
     
 
-    var map = L.map('mapid').setView([-8.703537179417122, 115.21847565025823], 15);
+    var map = L.map('mapid').setView([-8.667021779179, 115.23016470585], 13);
     var baseUrl = "{{ url('/') }}";
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -71,9 +71,12 @@
     @can('create', new App\Outlet)
 
     var coordinates = [];
+    var image = [];
     @foreach($data as $row)
         var latlng = L.latLng({{ $row->latitude }}, {{ $row->longitude }});
         coordinates.push(latlng);
+        // var img = {{ $row->image }};
+        // image.push(img);
     @endforeach
 
     

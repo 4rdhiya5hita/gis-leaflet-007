@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Jenjang;
+use App\Models\Guru;
+use App\Models\Siswa;
 use App\Outlet;
 use App\School;
 use Illuminate\Http\Request;
@@ -21,7 +23,7 @@ class OutletController extends Controller
 
         // $outlets = Outlet::all();
         $outletQuery = Outlet::query();
-        $outletQuery->where('name', 'like', '%'.request('q').'%');
+        $outletQuery->where('name', 'like', '%' . request('q') . '%');
         $outlets = $outletQuery->paginate(25);
         // dd($outlets);
 
@@ -51,7 +53,7 @@ class OutletController extends Controller
         $this->authorize('create', new Outlet);
         $school = null;
 
-        if ($request->type == 'school'){
+        if ($request->type == 'school') {
             $newSchool = $request->validate([
                 'akreditas'    => 'required|max:20',
                 'jumlah_siswa' => 'required|max:20',
@@ -72,7 +74,7 @@ class OutletController extends Controller
             'latitude'  => 'nullable|required_with:longitude|max:15',
             'longitude' => 'nullable|required_with:latitude|max:15',
             'type'      => 'nullable|max:60',
-        ]);        
+        ]);
 
         $outlet = DB::table('outlets')->insert([
             'school_id' => $school_id,
@@ -84,7 +86,7 @@ class OutletController extends Controller
             // Add more fields and their values as needed
         ]);
 
-        
+
         // $newOutlet['creator_id'] = auth()->id();
         // $outlet = Outlet::create($newOutlet);
 
@@ -105,8 +107,40 @@ class OutletController extends Controller
         // $schools = Outlet::find($outlet->id);
         $jenjang = Jenjang::find($outlet->jenjang_id);
         $image = Outlet::where('image', '=', $outlet->image)->first();
-        // dd($image);
-        return view('outlets.show', compact('outlet', 'jenjang', 'image'));
+
+        $tahun = Siswa::where('school_id', $outlet->id)
+            ->orderBy('tahun', 'desc')
+            ->distinct()
+            ->pluck('tahun');
+
+        $cek = DB::table('siswas')->where('school_id', $outlet->id)->get();
+        // dd($cek);
+
+        if(count($cek) > 0){
+            $siswa = Siswa::where('school_id', $outlet->id)
+                ->where('tahun', $tahun)
+                ->get();
+            // $coba = Siswa::class();
+            // dd($siswa);
+        }else{
+            $siswa = "kosong";
+        }
+
+        $guru = DB::table('gurus')->where('school_id', $outlet->id)->get();
+        // dd($guru);
+
+        return view('outlets.show', compact('outlet', 'jenjang', 'image', 'siswa', 'tahun', 'guru', 'cek'));
+    }
+
+    public function getSiswaTahun($outlet, $tahun)
+    {
+        $siswaTahun = Siswa::where('school_id', $outlet)
+            ->where('tahun', $tahun)
+            ->with('kelas')
+            ->orderBy('tahun', 'asc')
+            ->get();
+
+        return response()->json($siswaTahun);
     }
 
     /**
@@ -121,7 +155,7 @@ class OutletController extends Controller
         $type = ['house' => 'House', 'school' => 'School', 'store' => 'Store'];
 
         $school = School::find($outlet->school_id);
-        return view('outlets.edit', compact('outlet', 'school' ,'type'));
+        return view('outlets.edit', compact('outlet', 'school', 'type'));
     }
 
     /**
@@ -135,7 +169,7 @@ class OutletController extends Controller
     {
         $this->authorize('update', $outlet);
         // dd($outlet->creator->id);
-        if ($request->type == 'school'){
+        if ($request->type == 'school') {
             $updateSchool = $request->validate([
                 'akreditas'    => 'required|max:20',
                 'jumlah_siswa' => 'required|max:20',
@@ -151,15 +185,13 @@ class OutletController extends Controller
             // $data->jenjang = $request->input('jenjang');
             // $data->save();
             // $school = DB::table('schools')->latest('id')->first();
-        }
-        else{
+        } else {
             // $school_id = null;
             $school_id = $outlet->school_id;
             $outlet->update([
                 'school_id' => null,
             ]);
             School::find($school_id)->delete();
-
         }
 
         $outletData = $request->validate([

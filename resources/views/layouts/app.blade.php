@@ -222,7 +222,7 @@
             <!-- </div> -->
         </nav>
 
-        <main class="">
+        <main style="margin:20px">
             @yield('content')
         </main>
         @include('layouts.partials.footer')
