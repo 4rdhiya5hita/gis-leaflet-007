@@ -118,7 +118,7 @@ class OutletController extends Controller
 
         if(count($cek) > 0){
             $siswa = Siswa::where('school_id', '=', $outlet->id)
-                ->and('tahun', '=', $tahun)
+                ->where('tahun', '=', $tahun[0])
                 ->get();
             // $coba = Siswa::class();
             // dd($siswa);
