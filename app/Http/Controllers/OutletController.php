@@ -108,18 +108,18 @@ class OutletController extends Controller
         $jenjang = Jenjang::find($outlet->jenjang_id);
         $image = Outlet::where('image', '=', $outlet->image)->first();
 
-        $tahun = Siswa::where('school_id', $outlet->id)
+        $tahun = Siswa::where('school_id', '=', $outlet->id)
             ->orderBy('tahun', 'desc')
             ->distinct()
             ->pluck('tahun');
 
-        $cek = DB::table('siswas')->where('school_id', $outlet->id)->get();
+        $cek = DB::table('siswas')->where('school_id', '=', $outlet->id)->get();
         // dd($cek);
 
         if(count($cek) > 0){
-            $siswa = Siswa::where('school_id', $outlet->id)
+            $siswa = Siswa::where('school_id', '=', $outlet->id)
                 ->where('tahun', $tahun)
-                ->first();
+                ->get();
             // $coba = Siswa::class();
             // dd($siswa);
         }else{
