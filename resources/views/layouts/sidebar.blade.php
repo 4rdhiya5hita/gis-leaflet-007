@@ -3,12 +3,12 @@
         @guest
             <div class="row">
                 <a class="" href="" style="">                            
-                    <img src="{{ asset('img/user-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="50" height="50">                                
+                    <img src="{{ secure_asset('img/user-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="50" height="50">                                
                 </a>
             </div>
             <div class="row">
                 <a class="" href="{{ route('login') }}" style="">                            
-                    <img src="{{ asset('img/edit-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="50" height="50">                                
+                    <img src="{{ secure_asset('img/edit-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="50" height="50">                                
                 </a>
             </div>
                 <!-- <li class="nav-item">

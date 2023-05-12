@@ -14,7 +14,7 @@
 <!-- <link rel="stylesheet" href="../js/Leaflet.markercluster-master/dist/MarkerCluster.css" />
 <link rel="stylesheet" href="../js/Leaflet.markercluster-master/dist/MarkerCluster.Default.css" />
 <script src="../js/Leaflet.markercluster-master/dist/leaflet.markercluster-src.js"></script> -->
-<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ secure_asset('js/app.js') }}"></script>
 
 <style>
     #mapid { margin-left: 20px; margin-top: 20px; height: 550px; width: 1325px; border: 5px solid white; border-radius: 10px; }

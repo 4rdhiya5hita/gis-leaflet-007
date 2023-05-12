@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
     @yield('styles')
 </head>
 <body>
@@ -34,16 +34,16 @@
                     <!-- <li class="nav-item"><a class="nav-link" href="{{ route('outlet_map.index') }}">{{ __('menu.our_outlets') }}</a></li>                         -->
                     @guest                    
                     <a class="media" style="position: absolute; top: 0; right: 0;">                            
-                        <img src="{{ asset('img/user-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="50" height="50">                                
+                        <img src="{{ secure_asset('img/user-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="50" height="50">                                
                     </a>         
                     <a class="media" style="position: absolute; bottom: 0; right: 0;" href="{{ route('login') }}">                            
-                        <img src="{{ asset('img/edit-icon.png') }}"
+                        <img src="{{ secure_asset('img/edit-icon.png') }}"
                         alt="User Avatar" class="img-circle mr-3" width="50" height="50">
                     </a>                    
 
                     @if (Route::has('register'))
                     <a class="media" style="position: absolute; bottom: 0; right: 50;" href="{{ route('register') }}">                            
-                        <img src="{{ asset('img/edit-icon.png') }}"
+                        <img src="{{ secure_asset('img/edit-icon.png') }}"
                         alt="User Avatar" class="img-circle mr-3" width="50" height="50">                        
                     </a>
                     @endif
@@ -51,7 +51,7 @@
                     @else
                             <a class="media" data-toggle="dropdown" href="#" role="button" style="position: absolute; top: 10px; right: 10px;">
                                 <div class="" aria-labelledby="navbarDropdown">
-                                <img src="{{ asset('img/account-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="50" height="50">
+                                <img src="{{ secure_asset('img/account-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="50" height="50">
                                     <a class="dropdown-item" >
                                         {{ __('Logout') }}
                                     </a>
@@ -62,7 +62,7 @@
                                 </div>
                             </a>
                             <a class="media" data-toggle="dropdown" href="#" role="button" style="position: absolute; top: 70px; right: 10px;">                            
-                                <img src="{{ asset('img/logout-icon.png') }}"
+                                <img src="{{ secure_asset('img/logout-icon.png') }}"
                                     href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                                     alt="User Avatar" class="img-circle mr-3" width="50" height="50">                                
                             </a>
@@ -100,7 +100,7 @@
         @include('layouts.partials.footer')
     </div>
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ secure_asset('js/app.js') }}"></script>
     @stack('scripts')
 </body>
 </html>

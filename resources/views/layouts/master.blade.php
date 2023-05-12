@@ -14,9 +14,9 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <!-- <link href="{{ asset('Leaflet.markercluster-1.4.1/dist/MarkerCluster.css') }}" rel="stylesheet">
-    <link href="{{ asset('Leaflet.markercluster-1.4.1/dist/MarkerCluster.Default.css') }}" rel="stylesheet"> -->
+    <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
+    <!-- <link href="{{ secure_asset('Leaflet.markercluster-1.4.1/dist/MarkerCluster.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('Leaflet.markercluster-1.4.1/dist/MarkerCluster.Default.css') }}" rel="stylesheet"> -->
     @yield('styles')    
 </head>
 <body>
@@ -77,9 +77,9 @@
         @include('layouts.partials.footer')
     </div>
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
-    <!-- <script src="{{ asset('Leaflet.markercluster-1.4.1/dist/leaflet.markercluster-src.js') }}"></script>
-    <script src="{{ asset('Leaflet.markercluster-1.4.1/src/MarkerCluster.js') }}"></script> -->
+    <script src="{{ secure_asset('js/app.js') }}"></script>
+    <!-- <script src="{{ secure_asset('Leaflet.markercluster-1.4.1/dist/leaflet.markercluster-src.js') }}"></script>
+    <script src="{{ secure_asset('Leaflet.markercluster-1.4.1/src/MarkerCluster.js') }}"></script> -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     @stack('scripts')
 </body>

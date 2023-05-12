@@ -22,8 +22,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <!-- <link href="{{ asset('css/navbar.css') }}" rel="stylesheet"> -->
+    <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
+    <!-- <link href="{{ secure_asset('css/navbar.css') }}" rel="stylesheet"> -->
     <style>
         body {
             font-size: 14px;
@@ -59,11 +59,12 @@
         .square-button {
             background-color: #fff;
             /* warna latar belakang */
-            border: 1px solid #3989d4;
+            /* border: 1px solid #3989d4; */
+            border: none;
             /* tidak ada border */
             color: black;
             /* warna teks */
-            padding: 8px 16px;
+            padding: 6px 12px;
             /* jarak antara teks dengan tepi */
             text-align: center;
             /* posisi teks */
@@ -118,7 +119,7 @@
             /* tidak ada border */
             color: black;
             /* warna teks */
-            padding: 8px 12px;
+            padding: 6px 12px;
             /* jarak antara teks dengan tepi */
             text-align: center;
             /* posisi teks */
@@ -165,7 +166,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent" style="display: flex; justify-content: space-between;">
                     <div class="left">
                         <div class="square-button">
-                            <img src="{{ asset('img/list-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="30" height="30">
+                            <img src="{{ secure_asset('img/list-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="30" height="30">
                             <a class="nav-link" href="{{ route('outlet_map.index') }}">{{ __('menu.our_outlets') }}</a>
                         </div>
                         @guest
@@ -173,32 +174,32 @@
                         <div class="square-button">
                             <!-- Authentication Links -->
 
-                            <img src="{{ asset('img/edit-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="30" height="30">
+                            <img src="{{ secure_asset('img/edit-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="30" height="30">
                             <a class="nav-link" href="{{ route('login') }}">Edit</a>
                             <!-- @if (Route::has('register'))
                                 <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                             @endif-->
                         </div>
                         <div class="square-button square-guest" style="border: 1px solid #e5f5ae">
-                            <img src="{{ asset('img/user-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="30" height="30">
+                            <img src="{{ secure_asset('img/user-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="30" height="30">
                             <a class="nav-link">Guest Mode</a>
                         </div>
                     </div>
                     <div class="right">
                         @else
                         <div class="square-button">
-                            <img src="{{ asset('img/dashboard-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="30" height="30">
+                            <img src="{{ secure_asset('img/dashboard-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="30" height="30">
                             <a class="nav-link" href="#">Master Data</a>
                         </div>
                         <div class="square-button">
-                            <img src="{{ asset('img/ebook-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="30" height="30">
+                            <img src="{{ secure_asset('img/ebook-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="30" height="30">
                             <a class="nav-link" href="{{ route('outlets.index') }}">{{ __('outlet.list') }}</a>
                         </div>
                     </div>
 
                     <div class="right">
                         <div class="square-button-user">
-                            <img src="{{ asset('img/logout-icon.png') }}" alt="User Avatar" class="img-circle" width="30" height="30">
+                            <img src="{{ secure_asset('img/logout-icon.png') }}" alt="User Avatar" class="img-circle" width="30" height="30">
                             <a class="nav-link" style="color: black;" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                         document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}
@@ -209,7 +210,7 @@
                             </form>
                         </div>
                         <div class="square-button-user">
-                            <img src="{{ asset('img/account-icon.png') }}" alt="User Avatar" class="img-circle" width="30" height="30">
+                            <img src="{{ secure_asset('img/account-icon.png') }}" alt="User Avatar" class="img-circle" width="30" height="30">
                             <a class="nav-link">
                                 {{ Auth::user()->name }}
                             </a>
@@ -227,8 +228,8 @@
         @include('layouts.partials.footer')
     </div>
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
-    <!-- <script src="{{ asset('js/navbar.js') }}"></script> -->
+    <script src="{{ secure_asset('js/app.js') }}"></script>
+    <!-- <script src="{{ secure_asset('js/navbar.js') }}"></script> -->
     @stack('scripts')
 </body>
 

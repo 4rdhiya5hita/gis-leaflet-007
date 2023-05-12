@@ -13,7 +13,7 @@
                     <div class="row mb-5">
                         <div class="col-md-6 p-2">
                             <div class="row px-5">
-                                <img src="{{ asset('img/'.$image->image) }}" alt="" style="width: 100%; height: 255px">
+                                <img src="{{ secure_asset('img/'.$image->image) }}" alt="" style="width: 100%; height: 255px">
                             </div>
                             <div class="row px-5">
                                 <button id="toggleButtonGuru" class="btn btn-primary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" 
