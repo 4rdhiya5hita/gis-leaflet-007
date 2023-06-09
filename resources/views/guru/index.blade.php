@@ -43,7 +43,7 @@
                         @foreach($outlets as $key => $outlet)
                         <tr>
                             <td class="text-center">{{ $outlets->firstItem() + $key }}</td>
-                            <td>{{ $outlet->name }}</td>
+                            <td>{!! $outlet->name_link !!}</td>
                             <td>{{ $outlet->alamat }}</td>
                             <td>{{ $outlet->latitude }}</td>
                             <td>{{ $outlet->longitude }}</td>

@@ -37,7 +37,7 @@ class Outlet extends Model
         $title = __('app.show_detail_title', [
             'name' => $this->name, 'type' => __('outlet.outlet'),
         ]);
-        $link = '<a href="'.route('outlets.show', $this).'"';
+        $link = '<a style="text-decoration: none; color:white;" href="'.route('outlets.show', $this).'"';
         $link .= ' title="'.$title.'">';
         $link .= $this->name;
         $link .= '</a>';
@@ -50,7 +50,7 @@ class Outlet extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function creator()
+    public function jenjang()
     {
         return $this->belongsTo(Jenjang::class, 'jenjang_id', 'id');
     }
@@ -89,7 +89,7 @@ class Outlet extends Model
         $mapPopupContent .= '<img src="' . asset('img/'.$this->image) . '" alt="Gambar" style="width: 100%; height: 180px">';
         $mapPopupContent .= '<div class="my-2"><strong>'.__('outlet.name').':</strong><br>'.$this->name.'</div>';
         $mapPopupContent .= '<div class="my-2"><strong>'.__('outlet.akreditas').':</strong><br>'. $this->akreditas .'</div>';
-        $mapPopupContent .= '<div class="my-2"><strong>'.__('outlet.address').':</strong><br>'.$this->alamat.'</div>';
+        $mapPopupContent .= '<div class="my-2"><strong>'.__('outlet.alamat').':</strong><br>'.$this->alamat.'</div>';
 
         // $akreditas = $this->creator->akreditas;
         // $jumlah_siswa = $this->creator->jumlah_siswa;
@@ -102,7 +102,7 @@ class Outlet extends Model
         // Access the attributes of the related School model
 
         $mapPopupContent .= '<div class="my-2"><strong>'.__('outlet.coordinate').':</strong><br>'.$this->coordinate.'</div>';
-        $mapPopupContent .= '<div class="btn btn-outline-primary" style="display: flex; justify-content: center;">'.$this->name_link.'</div>';
+        $mapPopupContent .= '<div class="btn btn-primary" style="display: flex; justify-content: center;">'.$this->name_link.'</div>';
 
         return $mapPopupContent;
     }

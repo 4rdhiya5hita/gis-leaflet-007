@@ -2,6 +2,19 @@
 
 @section('title', __('outlet.detail'))
 
+@section('styles')
+<script src="https://kit.fontawesome.com/32f82e1dca.js" crossorigin="anonymous"></script>
+<style>
+    .table-flow {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    max-height: 150px; /* Atur tinggi maksimal sesuai kebutuhan */
+    border-bottom: solid black 0.5px;
+    overflow: auto;
+    }
+</style>
+@endsection
+
 @section('content')
 <div style="background-image: url('/img/bg-peta.jpg'); background-size: cover; height: fit-content; padding-top:10px;">
 
@@ -25,7 +38,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <table class="table table-sm" style="margin: 0;">
+                            <table class="table table-sm" id="school_data" style="margin: 0;">
                                 <tbody>
                                     <tr>
                                         <td>{{ __('outlet.name') }}</td>
@@ -45,11 +58,11 @@
                                     </tr>
                                     <tr>
                                         <td>{{ __('outlet.jumlah_siswa') }}</td>
-                                        <td>#</td>
+                                        <td id="total-siswa">{{ $total_siswa }}</td>
                                     </tr>
                                     <tr>
                                         <td>{{ __('outlet.jumlah_guru') }}</td>
-                                        <td>#</td>
+                                        <td>{{ $count_guru }}</td>
                                     </tr>
                                     <tr>
                                         <td>{{ __('outlet.latitude') }}</td>
@@ -64,13 +77,59 @@
                         </div>
                     </div>
 
-                    <div class="row mt-3 mb-5">
+                    <div class="mt-3 mb-5">
                         <table class="table table-sm" style="margin: 0;">
                             <tbody>
                                 <tr>
                                     <td>
-                                        <div id="divGuru" class="container collapse">
-                                            <h1>Data Guru</h1>
+                                        <div id="divGuru" class="collapse">
+                                            <div class="row">
+                                                <h1>Data Guru
+                                                @if( Auth::check() )
+                                                <a href="{{ route('guru.create', $outlet) }}" class="btn btn-primary r-0">Create Guru</a>
+                                                @endif
+                                                </h1>
+                                            </div>
+
+                                            <div class="table-flow" @if(count($guru) == 0) hidden @endif>
+                                                <table class="table table-sm">
+                                                    <thead>
+                                                        <tr>
+                                                            <td><b>Nama</b></td>
+                                                            <td><b>Jabatan</b></td>
+                                                            <td><b>NIP</b></td>
+                                                            <td><b>Email</b></td>
+                                                            <td><b>Jenis Kelamin</b></td>
+                                                            <td><b>Status Guru</b></td>
+                                                            <td><b>Golongan</b></td>
+                                                            <td><b>Sertifikasi</b></td>
+                                                            <td><b>Action</b></td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($guru as $val)
+                                                        <tr>
+                                                            <td>{{ $val->name }}</td>
+                                                            <td>{{ $val->jabatan }}</td>
+                                                            <td>{{ $val->nip }}</td>
+                                                            <td>{{ $val->email }}</td>
+                                                            <td>{{ $val->jenis_kelamin }}</td>
+                                                            <td>{{ $val->status }}</td>
+                                                            <td>{{ $val->golongan }}</td>
+                                                            <td>{{ $val->sertifikasi }}</td>
+                                                            @if( Auth::check() )
+                                                            <td class="button_group">
+                                                                <a class="btn btn-warning" href="{{ route('guru.edit', [$outlet, $val->id]) }}">
+                                                                    <i class=" fa-solid fa-pen-to-square"></i>
+                                                                </a>
+                                                            </td>
+                                                            @endif
+                                                        </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
                                             <ul class="nav nav-tabs">
                                                 <li class="active"><a data-toggle="tab" href="#home">Status</a></li>
                                                 <li><a data-toggle="tab" href="#menu1">Golongan</a></li>
@@ -100,16 +159,16 @@
                                                             $countHonor = count($guru->where('status', 'Honor'));
                                                             @endphp
                                                             <tr>
-                                                                <td><b>Total</b></td>
-                                                                <td class="text-center">{{ $countPNS + $countHonor }}</td>
-                                                            </tr>
-                                                            <tr>
                                                                 <td>PNS</td>
                                                                 <td class="text-center">{{ $countPNS }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>Honor</td>
                                                                 <td class="text-center">{{ $countHonor }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><b>Total</b></td>
+                                                                <td class="text-center">{{ $countPNS + $countHonor }}</td>
                                                             </tr>
                                                         </tbody>
                                                         @endif
@@ -173,16 +232,16 @@
                                                             $countBelumSertifikasi = count($guru->where('sertifikasi', 'belum sertifikasi'));
                                                             @endphp
                                                             <tr>
-                                                                <td><b>Total</b></td>
-                                                                <td class="text-center">{{ $countSertifikasi + $countBelumSertifikasi }}</td>
-                                                            </tr>
-                                                            <tr>
                                                                 <td>Sertifikasi</td>
                                                                 <td class="text-center">{{ $countSertifikasi }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>Belum Sertifikasi</td>
                                                                 <td class="text-center">{{ $countBelumSertifikasi }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><b>Total</b></td>
+                                                                <td class="text-center">{{ $countSertifikasi + $countBelumSertifikasi }}</td>
                                                             </tr>
                                                         </tbody>
                                                         @endif
@@ -210,16 +269,16 @@
                                                             $countLaki = count($guru->where('jenis_kelamin', 'L'));
                                                             @endphp
                                                             <tr>
-                                                                <td><b>Total</b></td>
-                                                                <td class="text-center">{{ $countPerempuan+$countLaki }}</td>
-                                                            </tr>
-                                                            <tr>
                                                                 <td>Perempuan</td>
                                                                 <td class="text-center">{{ $countPerempuan }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>Laki-laki</td>
                                                                 <td class="text-center">{{ $countLaki }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><b>Total</b></td>
+                                                                <td class="text-center">{{ $countPerempuan+$countLaki }}</td>
                                                             </tr>
                                                         </tbody>
                                                         @endif
@@ -231,8 +290,12 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <div id="divSiswa" class="container collapse">
-                                            <h1>Data Siswa</h1>
+                                        <div id="divSiswa" class="collapse">
+                                            <h1>Data Siswa
+                                            @if( Auth::check() )
+                                            <a href="{{ route('siswa.create', $outlet) }}" class="btn btn-primary r-0">Create Siswa</a>
+                                            @endif
+                                            </h1>
                                             <table id="siswa-table" class="table table-sm" style="margin: 0;">
                                                 @if(count($cek) == 0)
                                                 <thead>
@@ -257,6 +320,9 @@
                                                         <td><b> Jumlah Perempuan </b></td>
                                                         <td><b> Jumlah Laki-laki </b></td>
                                                         <td><b> Total </b></td>
+                                                        @if( Auth::check() )
+                                                        <td><b>Action</b></td>
+                                                        @endif
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -266,6 +332,13 @@
                                                         <td>{{ $val->jumlah_perempuan }}</td>
                                                         <td>{{ $val->jumlah_laki }}</td>
                                                         <td><b>{{ $val->jumlah_laki + $val->jumlah_perempuan }}</b></td>
+                                                        @if( Auth::check() )
+                                                        <td class="button_group">
+                                                            <a class="btn btn-warning" href="{{ route('siswa.edit', [$outlet, $val->id]) }}">
+                                                                <i class=" fa-solid fa-pen-to-square"></i>
+                                                            </a>
+                                                        </td>
+                                                        @endif
                                                     </tr>
                                                     @endforeach
                                                 </tbody>
@@ -278,25 +351,22 @@
                         </table>
                     </div>
 
-                    <div class="row">
-                        <!-- <div class="card-header">{{ trans('outlet.location') }}</div> -->
-                        @if ($outlet->coordinate)
-                        <div class="card-body" id="mapid"></div>
-                        @else
-                        <div class="card-body">{{ __('outlet.no_coordinate') }}</div>
-                        @endif
+                    @if ($outlet->coordinate)
+                    <div class="card-body" style="height: 250px;" id="mapid"></div>
+                    @else
+                    <div class="card-body">{{ __('outlet.no_coordinate') }}</div>
+                    @endif
 
-                        @if( Auth::check() )
-                        <div class="card-footer">
-                            <a href="#" id="#" class="btn btn-primary" disabled>{{ __('outlet.edit') }}</a>
-                            <!-- <a href="{{ route('outlets.edit', $outlet) }}" id="edit-outlet-{{ $outlet->id }}" class="btn btn-primary" disabled>{{ __('outlet.edit') }}</a> -->
-                            <!-- <a href="{{ route('outlets.index') }}" class="btn btn-outline-primary">{{ __('outlet.back_to_index') }}</a> -->
-                            <a href="{{ route('outlet_map.index') }}" class="btn btn-outline-primary">{{ __('app.back_to_map') }}</a>
-                        </div>
-                        @endif
+                    @if( Auth::check() )
+                    <div class="card-footer">
+                        <!-- <a href="#" id="#" class="btn btn-primary" disabled>{{ __('outlet.edit') }}</a> -->
+                        <a href="{{ route('outlets.edit', $outlet) }}" id="edit-outlet-{{ $outlet->id }}" class="btn btn-primary">{{ __('outlet.edit') }}</a>
+                        <!-- <a href="{{ route('outlets.index') }}" class="btn btn-outline-primary">{{ __('outlet.back_to_index') }}</a> -->
+                        <a href="{{ route('outlet_map.index') }}" class="btn btn-outline-primary">{{ __('app.back_to_map') }}</a>
                     </div>
+                    @endif
+                    
                 </div>
-
             </div>
         </div>
     </div>
@@ -306,10 +376,6 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin="" />
 
     <style>
-        #mapid {
-            height: 200px;
-        }
-
         #button {
             width: 100%;
         }
@@ -354,16 +420,34 @@
                     dataType: 'json',
                     success: function(data) {
                         var html = '';
-                        for (var i = 0; i < data.length; i++) {
+                        var total_siswa = 0;
+                        var isAuthenticated = data.is_authenticated;
+                        var siswa = data.siswa;
+
+                        for (var i = 0; i < siswa.length; i++) {
                             html += '<tr>';
-                            html += '<td>' + data[i].kelas.kelas + '</td>';
-                            html += '<td>' + data[i].jumlah_perempuan + '</td>';
-                            html += '<td>' + data[i].jumlah_laki + '</td>';
-                            html += '<td><b>' + (parseInt(data[i].jumlah_laki) + parseInt(data[i].jumlah_perempuan)) + '</b></td>';
-                            html += '<tr>';
+                            html += '<td>' + siswa[i].kelas.kelas + '</td>';
+                            html += '<td>' + siswa[i].jumlah_perempuan + '</td>';
+                            html += '<td>' + siswa[i].jumlah_laki + '</td>';
+                            html += '<td><b>' + (parseInt(siswa[i].jumlah_laki) + parseInt(siswa[i].jumlah_perempuan)) + '</b></td>';
+
+                            if (isAuthenticated) { // Checking if the user is authenticated
+                                html += '<td class="button_group">';
+                                html += '<a class="btn btn-warning" href="/siswa_edit/{{ $outlet->id }}/' + siswa[i].id + '">';
+                                html += '<i class="fa-solid fa-pen-to-square"></i>';
+                                html += '</a>';
+                                html += '</td>';
+                            }
+                            html += '</tr>';
+
+                            var total = parseInt(siswa[i].jumlah_laki) + parseInt(siswa[i].jumlah_perempuan);
+                            total_siswa += total;
                         }
+                        
+                        $('#total-siswa').text(total_siswa);
                         $('#siswa-table tbody').html(html);
                     },
+
                 });
             });
         });

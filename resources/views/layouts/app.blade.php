@@ -15,14 +15,26 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
+    
+    <!-- Masukkan pustaka Leaflet dan MarkerCluster -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.1/leaflet.markercluster.js"></script>
+
+    <!-- Masukkan gaya untuk Leaflet dan MarkerCluster -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.1/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.1/MarkerCluster.Default.css" />
+
+    <link href="{{ secure_asset('css/styles.css') }}" rel="stylesheet">
     <!-- Styles -->
-    <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
+    <!-- <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet"> -->
     <!-- <link href="{{ secure_asset('css/navbar.css') }}" rel="stylesheet"> -->
     <style>
         body {
@@ -107,6 +119,7 @@
 
         /* Teks "Klik Saya" */
         .nav-link {
+            color: black;
             display: inline-block;
             transition: color 0.4s ease-in-out;
             /* efek transisi warna */
@@ -163,7 +176,7 @@
             </a>
             <!-- <div class="container"> -->
                 <div style="background-image: url('/img/bg-peta.jpg'); background-size: cover; width:100%; height:max-content;">
-                <div class="collapse navbar-collapse" id="navbarSupportedContent" style="display: flex; justify-content: space-between;">
+                <div class="" id="navbarSupportedContent" style="display: flex; justify-content: space-around;">
                     <div class="left">
                         <div class="square-button">
                             <img src="{{ secure_asset('img/list-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="30" height="30">

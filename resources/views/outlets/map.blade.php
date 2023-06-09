@@ -11,13 +11,20 @@
     integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
     crossorigin=""/>
 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ==" crossorigin="" />
+	<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js" integrity="sha512-WXoSHqw/t26DszhdMhOXOkI7qCiv5QWXhH9R7CgvgZMHz1ImlkVQ3uNsiQKu5wwbbxtPzFXd1hK4tzno2VqhpA==" crossorigin=""></script>
+	<link rel="stylesheet" href="{{ secure_asset('../js/Leaflet.markercluster-master/dist/MarkerCluster.css') }}" />
+	<link rel="stylesheet" href="{{ secure_asset('../js/Leaflet.markercluster-master/dist/MarkerCluster.Default.css') }}" />
+	<script src="{{ secure_asset('../js/Leaflet.markercluster-master/dist/leaflet.markercluster-src.js') }}"></script>
+    <script src="{{ secure_asset('js/leaflet.js') }}"></script>
+    <script src="{{ secure_asset('js/leaflet.markercluster.js') }}"></script>
 <!-- <link rel="stylesheet" href="../js/Leaflet.markercluster-master/dist/MarkerCluster.css" />
 <link rel="stylesheet" href="../js/Leaflet.markercluster-master/dist/MarkerCluster.Default.css" />
 <script src="../js/Leaflet.markercluster-master/dist/leaflet.markercluster-src.js"></script> -->
 <script src="{{ secure_asset('js/app.js') }}"></script>
 
 <style>
-    #mapid { padding: 20px; margin-top: 20px; height: 490px; width: 100%; border: 5px solid white; border-radius: 10px; }
+    #mapid { padding: 20px; margin-top: 20px; height: 530px; width: 100%; border: 5px solid white; border-radius: 10px; }
 </style>
 @endsection
 @push('scripts')
@@ -71,14 +78,12 @@
     @can('create', new App\Outlet)
 
     var coordinates = [];
-    var image = [];
     @foreach($data as $row)
-        var latlng = L.latLng({{ $row->latitude }}, {{ $row->longitude }});
+        var lat = {{ $row->latitude }};
+        var lng = {{ $row->longitude }};
+        var latlng = L.latLng(lat, lng);
         coordinates.push(latlng);
-        // var img = {{ $row->image }};
-        // image.push(img);
     @endforeach
-
     
     var theMarker;
 
@@ -91,15 +96,15 @@
         };
 
         var popupContent = `
-            <div class="container">
+            <div class="p-2">
                 <div class="row">
-                    <div class="cell merged" style="text-align:center">Latitude</div>
+                    <div class="cell merged">Latitude</div>
                 </div>
                 <div class="row mb-3">
                     <input type="text" class="form-control" name="latitude" value="${latitude}">
                 </div>
                 <div class="row">
-                    <div class="cell merged" style="text-align:center">Longitude</div>
+                    <div class="cell merged">Longitude</div>
                 </div>
                 <div class="row">
                     <input type="text" class="form-control" name="longitude" value="${longitude}">
@@ -115,11 +120,10 @@
         theMarker = L.marker([latitude, longitude],{icon: myPoint, draggable:true}).addTo(map);
         theMarker.bindPopup(popupContent)
         .openPopup();
-
-        
     });
     // ada yg hilang disini (authorization)
     @endcan
+    
 
 </script>
 @endpush

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Siswa extends Model
 {
-    use HasFactory;
+    use HasFactory;    
     // protected $table = "siswas";
     protected $fillable = [
         'school_id', 'kelas_id', 'jumlah_perempuan', 'jumlah_laki', 'tahun',

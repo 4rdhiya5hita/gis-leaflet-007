@@ -11,9 +11,6 @@ class Jenjang extends Model
      *
      * @var array
      */
-    protected $fillable = [
-        'jenjang',
-    ];
-
+    protected $guarded = ['id'];
     
 }

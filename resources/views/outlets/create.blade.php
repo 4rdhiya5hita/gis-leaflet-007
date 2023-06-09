@@ -4,12 +4,12 @@
 
 @section('content')
 <!-- <p style="background-image: url('/img/background.png'); width:1200px; height:680px"> -->
-<div style="background-image: url('/img/bg-peta.jpg'); background-size: cover; height:625px; padding-top:80px;">
+<div style="background-image: url('/img/bg-peta.jpg'); background-size: cover; height:625px;">
   
 <div class="container">
     <div class="card justify-content-center">
         <div class="card-header bg-primary font-weight-bold" style="color: white; font-size:large;">{{ __('outlet.create') }}</div>
-        <form method="POST" action="{{ route('outlets.store') }}" accept-charset="UTF-8">
+        <form method="POST" action="{{ route('outlets.store') }}" enctype="multipart/form-data" accept-charset="UTF-8">
             {{ csrf_field() }}
             <div class="card-body">
                 <div class="form-group">
@@ -18,36 +18,34 @@
                     {!! $errors->first('name', '<span class="invalid-feedback" role="alert">:message</span>') !!}
                 </div>
                 <div class="form-group">
-                    <label for="address" class="control-label">{{ __('outlet.address') }}</label>
-                    <input id="address" type="text" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" value="{{ old('address') }}" required>
-                    {!! $errors->first('address', '<span class="invalid-feedback" role="alert">:message</span>') !!}
-                </div>
-                <div class="form-group">
-                    <label for="type" class="control-label">{{ __('outlet.type') }}</label>                    
-                    <select id="type" type="text" class="form-control{{ $errors->has('type') ? ' is-invalid' : '' }}" name="type" value="{{ old('type', request('type')) }}" required>
-                        <option value="house">house</option>
-                        <option value="store">store</option>
-                        <option value="school">school</option>
-                    </select>
-                    {!! $errors->first('type', '<span class="invalid-feedback" role="alert">:message</span>') !!}
+                    <label for="alamat" class="control-label">{{ __('outlet.alamat') }}</label>
+                    <input id="alamat" type="text" class="form-control{{ $errors->has('alamat') ? ' is-invalid' : '' }}" name="alamat" value="{{ old('alamat') }}" required>
+                    {!! $errors->first('alamat', '<span class="invalid-feedback" role="alert">:message</span>') !!}
                 </div>
 
                 <!-- <div id="divElement" style="display:none;">Data Tambahan Sekolah -->
                     <div class="form-group">
                         <label for="akreditas" class="control-label">{{ __('outlet.akreditas') }}</label>
-                        <input id="akreditas" type="text" class="form-control{{ $errors->has('akreditas') ? ' is-invalid' : '' }}" name="akreditas" value="{{ old('akreditas') }}" >
-                    </div>
-                    <div class="form-group">
-                        <label for="jumlah_siswa" class="control-label">{{ __('outlet.jumlah_siswa') }}</label>
-                        <input id="jumlah_siswa" type="text" class="form-control{{ $errors->has('jumlah_siswa') ? ' is-invalid' : '' }}" name="jumlah_siswa" value="{{ old('jumlah_siswa') }}" >
+                        <select id="akreditas" type="text" class="form-control{{ $errors->has('akreditas') ? ' is-invalid' : '' }}" name="akreditas" value="{{ old('akreditas') }}" >
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="jenjang" class="control-label">{{ __('outlet.jenjang') }}</label>
                         <select id="jenjang" type="text" class="form-control{{ $errors->has('jenjang') ? ' is-invalid' : '' }}" name="jenjang" value="{{ old('jenjang', request('jenjang')) }}" >
-                            <option value="SD">SD</option>
-                            <option value="SMP">SMP</option>
-                            <option value="SMA">SMA</option>
+                            @foreach($jenjangs as $jenjang)
+                                <option value="{{ $jenjang->id }}">{{ $jenjang->jenjang }}</option>
+                            @endforeach
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="image" class="control-label">Foto Sekolah</label>
+                        <input type="file" id="image" class="form-control{{ $errors->has('image') ? ' is-invalid' : '' }}" name="image" value="{{ old('image', request('image')) }}" required>
+                        {!! $errors->first('image', '<span class="invalid-feedback" role="alert">:message</span>') !!}
                     </div>
                 <!-- </div> -->
 

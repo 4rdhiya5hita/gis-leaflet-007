@@ -23,13 +23,14 @@ return [
     'updated'        => 'Data Sekolah berhasil diperbarui',
     'delete'         => 'Hapus Sekolah',
     'delete_confirm' => 'Ingin menghapus Sekolah ini?',
+    'delete_confirm_button' => 'Yes, deleted it!',
     'deleted'        => 'Sekolah berhasil dihapus',
     'undeleted'      => 'Sekolah gagal dihapus',
     'undeleteable'   => 'Sekolah tidak boleh dihapus',
 
     // Attributes
     'name'       => 'Nama Sekolah',
-    'address'    => 'Alamat',
+    'alamat'    => 'Alamat',
     'type'       => 'Tipe',
     'akreditas'  => 'Akreditas',
     'jumlah_siswa' => 'Jumlah Siswa',
