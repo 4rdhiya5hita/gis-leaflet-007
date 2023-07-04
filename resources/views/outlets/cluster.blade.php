@@ -80,19 +80,19 @@
         iconSize: [45, 45],
     }); 
     var mySD = L.icon({
-        iconUrl: 'img/marker-school-SD.png',
+        iconUrl: 'img/marker-school-sd.png',
         iconSize: [45, 45],
     }); 
     var mySMP = L.icon({
-        iconUrl: 'img/marker-school-SMP.png',
+        iconUrl: 'img/marker-school-smp.png',
         iconSize: [45, 45],
     }); 
     var mySMA = L.icon({
-        iconUrl: 'img/marker-school-SMA.png',
+        iconUrl: 'img/marker-school-sma.png',
         iconSize: [45, 45],
     }); 
     var mySMK = L.icon({
-        iconUrl: 'img/marker-school-SMK.png',
+        iconUrl: 'img/marker-school-smk.png',
         iconSize: [45, 45],
     }); 
     
