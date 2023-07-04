@@ -18,7 +18,7 @@ class DataController extends Controller
         $sekolah = Outlet::all();
         // $sekolah = Outlet::pluck('id');
         // dd($sekolah);
-        $outlet = Outlet::where('id', 1)->first();
+        $outlet = Outlet::where('id', 2)->first();
         // dd($outlet);
 
         $jenjang = Jenjang::find($outlet->jenjang_id);
