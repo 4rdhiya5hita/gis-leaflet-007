@@ -13,14 +13,11 @@
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ==" crossorigin="" />
 	<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js" integrity="sha512-WXoSHqw/t26DszhdMhOXOkI7qCiv5QWXhH9R7CgvgZMHz1ImlkVQ3uNsiQKu5wwbbxtPzFXd1hK4tzno2VqhpA==" crossorigin=""></script>
-	<link rel="stylesheet" href="{{ secure_asset('../js/Leaflet.markercluster-master/dist/MarkerCluster.css') }}" />
-	<link rel="stylesheet" href="{{ secure_asset('../js/Leaflet.markercluster-master/dist/MarkerCluster.Default.css') }}" />
-	<script src="{{ secure_asset('../js/Leaflet.markercluster-master/dist/leaflet.markercluster-src.js') }}"></script>
-    <script src="{{ secure_asset('js/leaflet.js') }}"></script>
-    <script src="{{ secure_asset('js/leaflet.markercluster.js') }}"></script>
-<!-- <link rel="stylesheet" href="../js/Leaflet.markercluster-master/dist/MarkerCluster.css" />
-<link rel="stylesheet" href="../js/Leaflet.markercluster-master/dist/MarkerCluster.Default.css" />
-<script src="../js/Leaflet.markercluster-master/dist/leaflet.markercluster-src.js"></script> -->
+	
+	<link rel="stylesheet" href="{{ secure_asset('/leaflet/dist/MarkerCluster.css') }}" />
+	<link rel="stylesheet" href="{{ secure_asset('/leaflet/dist/MarkerCluster.Default.css') }}" />
+	<script src="{{ secure_asset('/leaflet/dist/leaflet.markercluster-src.js') }}"></script>
+	<!-- <script src="realworld.388.js"></script> -->
 <script src="{{ secure_asset('js/app.js') }}"></script>
 
 <style>
@@ -34,10 +31,8 @@
     crossorigin=""></script>
 
 <script>    
-    
-
-    var map = L.map('mapid').setView([-8.667021779179, 115.23016470585], 13);
-    var baseUrl = "{{ url('/') }}";
+    var map = L.map('mapid').setView([-8.678791949849, 115.22091865539], 14);
+    var baseUrl = "{{ url('/map_sekolah_cluster') }}";
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -54,25 +49,25 @@
         iconSize: [45, 45],
     });
 
+    var markers = L.markerClusterGroup();
+    
     axios.get('{{ route('api.outlets.index') }}')
     .then(function (response) {
         console.log(response.data);
-        L.geoJSON(response.data, {
-            pointToLayer: function(geoJsonPoint, latlng) {
-                return L.marker(latlng,{
-                    icon: mySchool,
-                    draggable: false
-                }).addTo(map);     
-            }
-        })
-        .bindPopup(function (layer) {
-            return layer.feature.properties.map_popup_content;
-        }).addTo(map);
+
+        response.data.features.forEach(function(feature) {
+            var marker = L.marker(L.latLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]), {
+                icon: mySchool,
+                draggable: false
+            }).bindPopup(feature.properties.map_popup_content);
+            markers.addLayer(marker);
+        });
+
+        map.addLayer(markers);
     })
     .catch(function (error) {
         console.log(error);
     });
-
    
     // ada yg hilang disini (authorization)
     @can('create', new App\Outlet)

@@ -14,7 +14,7 @@ class Guru extends Model
         'school_id', 'jabatan_id', 'nama', 'nip', 'email', 'jenis_kelamin', 'status', 'golongan', 'sertifikasi', 'masa_jabatan_awal', 'masa_jabatan_akhir',
     ];
 
-    public function jabatan(){
+    public function jabatans(){
         return $this->belongsTo(Jabatan::class, 'jabatan_id', 'id');
     }
 

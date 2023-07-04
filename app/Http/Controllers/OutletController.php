@@ -105,7 +105,7 @@ class OutletController extends Controller
         // $newOutlet['creator_id'] = auth()->id();
         // $outlet = Outlet::create($newOutlet);
 
-        return redirect()->route('outlet_map.index', $outlet);
+        return redirect()->route('outlet_map.cluster', $outlet);
         // return redirect()->route('outlets.show', $outlet);
     }
 
@@ -171,12 +171,53 @@ class OutletController extends Controller
         $siswaTahun = Siswa::where('school_id', $outlet)
             ->where('tahun', $tahun)
             ->with('kelas')
-            ->orderBy('tahun', 'asc')
+            ->orderBy('kelas_id', 'asc')
             ->get();
 
         return response()->json([
             'is_authenticated' => $isAuthenticated,
             'siswa' => $siswaTahun,
+        ]);
+    }
+
+    public function getSekolah($outlet, $sekolah)
+    {
+        $isAuthenticated = false;
+        if (Auth::check()) {
+            $isAuthenticated = true;
+        }
+
+        $tahun = Siswa::where('school_id', '=', $sekolah)
+            ->orderBy('tahun', 'desc')
+            ->distinct()
+            ->pluck('tahun');
+        
+        $getSiswa = Siswa::where('school_id', $sekolah)            
+            ->with('kelas')
+            ->where('tahun', $tahun[0])
+            ->orderBy('kelas_id', 'asc')
+            ->get();
+
+        // if(!$getSiswa){
+        //     $getSiswa = 'null';
+        //     $tahun = 'x';
+        // }
+
+        $getGuru = DB::table('gurus')
+            ->leftJoin('jabatans', 'gurus.jabatan_id', '=', 'jabatans.id')
+            ->where('school_id', $sekolah)
+            ->where(function ($query) {
+                $query->where('status_aktif', '=', 'aktif')
+                    ->orWhere('status_aktif', '=', 'tidak aktif');
+            })
+            ->whereNull('deleted_at')
+            ->get();
+
+        return response()->json([
+            'is_authenticated' => $isAuthenticated,
+            'siswa' => $getSiswa,
+            'guru' => $getGuru,
+            'tahun_value' => $tahun,
         ]);
     }
 
@@ -246,8 +287,9 @@ class OutletController extends Controller
 
         if ($outlet->id && $outlet->delete()) {
             Outlet::findOrFail($outlet)->delete();
+            return redirect()->route('outlet_map.cluster', $outlet);
         }
 
-        return redirect()->route('outlet_map.index', $outlet);
+        return redirect()->route('outlet_map.cluster', $outlet);
     }
 }

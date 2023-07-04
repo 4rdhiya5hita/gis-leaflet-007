@@ -15,22 +15,12 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-    
-    <!-- Masukkan pustaka Leaflet dan MarkerCluster -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.1/leaflet.markercluster.js"></script>
-
-    <!-- Masukkan gaya untuk Leaflet dan MarkerCluster -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.1/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.1/MarkerCluster.Default.css" />
 
     <link href="{{ secure_asset('css/styles.css') }}" rel="stylesheet">
     <!-- Styles -->
@@ -163,6 +153,26 @@
         .right{
             margin-left: auto;
         }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;         
+            width: fit-content;      
+            height: 30px;      
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            border-radius: 10px;
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            padding: 8px 16px;
+            text-decoration: none;
+        }
+
+        .square-button:hover .dropdown-content {
+            display: block;
+        }
     </style>
     @yield('styles')
 </head>
@@ -171,17 +181,22 @@
     <div id="app">
 
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-            <a class="navbar-brand" href="{{ url('/') }}" style="font-size: large;">
+            <a class="navbar-brand" href="{{ url('map_sekolah_cluster') }}" style="font-size: large;">
                 Menu GIS
             </a>
             <!-- <div class="container"> -->
                 <div style="background-image: url('/img/bg-peta.jpg'); background-size: cover; width:100%; height:max-content;">
                 <div class="" id="navbarSupportedContent" style="display: flex; justify-content: space-around;">
-                    <div class="left">
-                        <div class="square-button">
-                            <img src="{{ secure_asset('img/list-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="30" height="30">
-                            <a class="nav-link" href="{{ route('outlet_map.index') }}">{{ __('menu.our_outlets') }}</a>
-                        </div>
+                    <div class="left">                    
+                        @if(request()->is('map_sekolah_cluster'))
+                            @yield('filter')    
+                        @else
+                            <div class="square-button">
+                                <img src="{{ secure_asset('img/list-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="30" height="30">
+                                <a class="nav-link dropbtn" href="{{ route('outlet_map.cluster') }}">{{ __('menu.our_outlets') }}</a>
+                            </div>
+                        @endif
+
                         @guest
                         <!-- Right Side Of Navbar -->
                         <div class="square-button">
@@ -197,12 +212,16 @@
                             <img src="{{ secure_asset('img/user-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="30" height="30">
                             <a class="nav-link">Guest Mode</a>
                         </div>
+                        <div class="square-button">
+                            <img src="{{ secure_asset('img/dashboard-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="30" height="30">
+                            <a class="nav-link" href="{{ route('data.index') }}">Master Data</a>
+                        </div>
                     </div>
                     <div class="right">
                         @else
                         <div class="square-button">
                             <img src="{{ secure_asset('img/dashboard-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="30" height="30">
-                            <a class="nav-link" href="#">Master Data</a>
+                            <a class="nav-link" href="{{ route('data.index') }}">Master Data</a>
                         </div>
                         <div class="square-button">
                             <img src="{{ secure_asset('img/ebook-icon.png') }}" alt="User Avatar" class="img-circle mr-3" width="30" height="30">

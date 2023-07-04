@@ -8,7 +8,7 @@
     .table-flow {
     margin-top: 20px;
     margin-bottom: 20px;
-    max-height: 150px; /* Atur tinggi maksimal sesuai kebutuhan */
+    max-height: 250px; /* Atur tinggi maksimal sesuai kebutuhan */
     border-bottom: solid black 0.5px;
     overflow: auto;
     }
@@ -45,7 +45,7 @@
                                         <td>{{ $outlet->name }}</td>
                                     </tr>
                                     <tr>
-                                        <td>{{ __('outlet.address') }}</td>
+                                        <td>{{ __('outlet.alamat') }}</td>
                                         <td>{{ $outlet->alamat }}</td>
                                     </tr>
                                     <tr>
@@ -86,7 +86,7 @@
                                             <div class="row">
                                                 <h1>Data Guru
                                                 @if( Auth::check() )
-                                                <a href="{{ route('guru.create', $outlet) }}" class="btn btn-primary r-0">Create Guru</a>
+                                                <a href="{{ route('guru.create', $outlet) }}" class="btn btn-primary r-0">Tambah Guru</a>
                                                 @endif
                                                 </h1>
                                             </div>
@@ -120,8 +120,15 @@
                                                             @if( Auth::check() )
                                                             <td class="button_group">
                                                                 <a class="btn btn-warning" href="{{ route('guru.edit', [$outlet, $val->id]) }}">
-                                                                    <i class=" fa-solid fa-pen-to-square"></i>
+                                                                    <i class="fa-solid fa-pen-to-square"></i>
                                                                 </a>
+                                                            </td>
+                                                            @else
+                                                            <td class="button_group">
+                                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detail-{{ $val->id }}">
+                                                                    <i class="fa-lg fa-sharp fa-solid fa-eye"></i>
+                                                                </button>
+                                                                <!-- Button trigger modal -->
                                                             </td>
                                                             @endif
                                                         </tr>
@@ -139,7 +146,7 @@
 
                                             <div class="tab-content">
                                                 <div id="home" class="tab-pane active">
-                                                    <table class="table table-sm" border="1" bordercolor="#CCCCCC">
+                                                    <table class="table table-sm" border="1" bordercolor="#CCCCCC" style="width: 50%">
                                                         @if(count($guru) == 0)
                                                         <thead>
                                                             <tr>
@@ -175,7 +182,7 @@
                                                     </table>
                                                 </div>
                                                 <div id="menu1" class="tab-pane fade">
-                                                    <table class="table table-sm" border="1" bordercolor="#CCCCCC">
+                                                    <table class="table table-sm" border="1" bordercolor="#CCCCCC" style="width: 70%">
                                                         @if(count($guru) == 0)
                                                         <thead>
                                                             <tr>
@@ -212,7 +219,7 @@
                                                 </div>
 
                                                 <div id="menu2" class="tab-pane fade">
-                                                    <table class="table table-sm" border="1" bordercolor="#CCCCCC">
+                                                    <table class="table table-sm" border="1" bordercolor="#CCCCCC" style="width: 50%">
                                                         @if(count($guru) == 0)
                                                         <thead>
                                                             <tr>
@@ -222,8 +229,8 @@
                                                         @else
                                                         <thead>
                                                             <tr>
-                                                                <td class="text-center"><b> Sertifikasi </b></td>
-                                                                <td class="text-center"><b> Belum Sertifikasi </b></td>
+                                                                <td class="text-center"><b> Sertifikasi Guru </b></td>
+                                                                <td class="text-center"><b> Jumlah </b></td>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -249,7 +256,7 @@
                                                 </div>
 
                                                 <div id="menu3" class="tab-pane fade">
-                                                    <table class="table table-sm" border="1" bordercolor="#CCCCCC">
+                                                    <table class="table table-sm" border="1" bordercolor="#CCCCCC" style="width: 50%">
                                                         @if(count($guru) == 0)
                                                         <thead>
                                                             <tr>
@@ -259,8 +266,8 @@
                                                         @else
                                                         <thead>
                                                             <tr>
-                                                                <td class="text-center"><b> Perempuan </b></td>
-                                                                <td class="text-center"><b> Laki-laki </b></td>
+                                                                <td class="text-center"><b> Jenis Kelamin </b></td>
+                                                                <td class="text-center"><b> Jumlah </b></td>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -293,7 +300,7 @@
                                         <div id="divSiswa" class="collapse">
                                             <h1>Data Siswa
                                             @if( Auth::check() )
-                                            <a href="{{ route('siswa.create', $outlet) }}" class="btn btn-primary r-0">Create Siswa</a>
+                                            <a href="{{ route('siswa.create', $outlet) }}" class="btn btn-primary r-0">Tambah Siswa</a>
                                             @endif
                                             </h1>
                                             <table id="siswa-table" class="table table-sm" style="margin: 0;">
@@ -316,10 +323,10 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td><b> Kelas </b></td>
-                                                        <td><b> Jumlah Perempuan </b></td>
-                                                        <td><b> Jumlah Laki-laki </b></td>
-                                                        <td><b> Total </b></td>
+                                                        <td class="text-center"><b> Kelas </b></td>
+                                                        <td class="text-center"><b> Jumlah Perempuan </b></td>
+                                                        <td class="text-center"><b> Jumlah Laki-laki </b></td>
+                                                        <td class="text-center"><b> Total </b></td>
                                                         @if( Auth::check() )
                                                         <td><b>Action</b></td>
                                                         @endif
@@ -329,9 +336,9 @@
                                                     @foreach($siswa as $val)
                                                     <tr>
                                                         <td>{{ $val->kelas->kelas }}</td>
-                                                        <td>{{ $val->jumlah_perempuan }}</td>
-                                                        <td>{{ $val->jumlah_laki }}</td>
-                                                        <td><b>{{ $val->jumlah_laki + $val->jumlah_perempuan }}</b></td>
+                                                        <td class="text-center">{{ $val->jumlah_perempuan }}</td>
+                                                        <td class="text-center">{{ $val->jumlah_laki }}</td>
+                                                        <td class="text-center"><b>{{ $val->jumlah_laki + $val->jumlah_perempuan }}</b></td>
                                                         @if( Auth::check() )
                                                         <td class="button_group">
                                                             <a class="btn btn-warning" href="{{ route('siswa.edit', [$outlet, $val->id]) }}">
@@ -341,6 +348,10 @@
                                                         @endif
                                                     </tr>
                                                     @endforeach
+                                                    <tr>
+                                                        <td><b>{{ __('outlet.jumlah_siswa') }}</b></td>
+                                                        <td id="total-siswa"><b>{{ $total_siswa }}</b></td>
+                                                    </tr>
                                                 </tbody>
                                                 @endif
                                             </table>
@@ -351,18 +362,12 @@
                         </table>
                     </div>
 
-                    @if ($outlet->coordinate)
-                    <div class="card-body" style="height: 250px;" id="mapid"></div>
-                    @else
-                    <div class="card-body">{{ __('outlet.no_coordinate') }}</div>
-                    @endif
-
                     @if( Auth::check() )
                     <div class="card-footer">
                         <!-- <a href="#" id="#" class="btn btn-primary" disabled>{{ __('outlet.edit') }}</a> -->
                         <a href="{{ route('outlets.edit', $outlet) }}" id="edit-outlet-{{ $outlet->id }}" class="btn btn-primary">{{ __('outlet.edit') }}</a>
                         <!-- <a href="{{ route('outlets.index') }}" class="btn btn-outline-primary">{{ __('outlet.back_to_index') }}</a> -->
-                        <a href="{{ route('outlet_map.index') }}" class="btn btn-outline-primary">{{ __('app.back_to_map') }}</a>
+                        <a href="{{ route('outlet_map.cluster') }}" class="btn btn-warning">{{ __('app.back_to_map') }}</a>
                     </div>
                     @endif
                     
@@ -370,6 +375,39 @@
             </div>
         </div>
     </div>
+
+
+    <!-- Modal -->
+    @foreach($guru as $val)
+    <div class="modal fade" id="detail-{{ $val->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title" id="exampleModalLabel"><b>Detail Guru</b></h3>
+            </button>
+        </div>
+        <div class="modal-body">
+            <table class="table table-sm">
+                <tr><td><b>Nama Guru</b></td> <td>{{ $val->name }}</td></tr>
+                <tr><td><b>Jabatan</b></td> <td>{{ $val->jabatan }}</td></tr>
+                <tr><td><b>NIP</b></td> <td>{{ $val->nip }}</td></tr>
+                <tr><td><b>Email</b></td> <td>{{ $val->email }}</td></tr>
+                <tr><td><b>Jenis Kelamin</b></td> <td>{{ $val->jenis_kelamin }}</td></tr>
+                <tr><td><b>Status</b></td> <td>{{ $val->status }}</td></tr>
+                <tr><td><b>Golongan</b></td> <td>{{ $val->golongan }}</td></tr>
+                <tr><td><b>Sertifikasi</b></td> <td>{{ $val->sertifikasi }}</td></tr>
+                <tr><td><b>Masa Jabatan Awal</b></td> <td>{{ $val->masa_jabatan_awal }}</td></tr>
+                <tr><td><b>Masa Jabatan Akhir</b></td> <td>{{ $val->masa_jabatan_akhir }}</td></tr>
+                <tr><td><b>Status Keaktifan Guru</b></td> <td>{{ $val->status_aktif }}</td></tr>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+    </div>
+    </div>
+    @endforeach
     @endsection
 
     @section('styles')
@@ -427,9 +465,9 @@
                         for (var i = 0; i < siswa.length; i++) {
                             html += '<tr>';
                             html += '<td>' + siswa[i].kelas.kelas + '</td>';
-                            html += '<td>' + siswa[i].jumlah_perempuan + '</td>';
-                            html += '<td>' + siswa[i].jumlah_laki + '</td>';
-                            html += '<td><b>' + (parseInt(siswa[i].jumlah_laki) + parseInt(siswa[i].jumlah_perempuan)) + '</b></td>';
+                            html += '<td class="text-center">' + siswa[i].jumlah_perempuan + '</td>';
+                            html += '<td class="text-center">' + siswa[i].jumlah_laki + '</td>';
+                            html += '<td class="text-center"><b>' + (parseInt(siswa[i].jumlah_laki) + parseInt(siswa[i].jumlah_perempuan)) + '</b></td>';
 
                             if (isAuthenticated) { // Checking if the user is authenticated
                                 html += '<td class="button_group">';
@@ -438,11 +476,16 @@
                                 html += '</a>';
                                 html += '</td>';
                             }
-                            html += '</tr>';
 
                             var total = parseInt(siswa[i].jumlah_laki) + parseInt(siswa[i].jumlah_perempuan);
                             total_siswa += total;
                         }
+
+                        html += '</tr>';
+                        html += '<tr>'
+                        html += '<td><b>Jumlah Siswa</b></td>'
+                        html += '<td id="total-siswa"><b>'+ total_siswa +'</b></td>'
+                        html += '</tr>'
                         
                         $('#total-siswa').text(total_siswa);
                         $('#siswa-table tbody').html(html);

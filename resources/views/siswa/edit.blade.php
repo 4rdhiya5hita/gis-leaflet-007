@@ -6,7 +6,7 @@
 <!-- <p style="background-image: url('/img/background.png'); width:1200px; height:680px"> -->
 <div style="background-image: url('/img/bg-peta.jpg'); background-size: cover; height: fit-content;">
     <div class="container" style="display: flex;justify-content: center;">
-        <div class="col-md-6">
+        <div class="col-md-6 mb-3">
             <div class="card justify-content-center">
                 <div class="card-header bg-primary font-weight-bold" style="color: white; font-size:large;">Edit Siswa</div>
                 <form method="POST" action="{{ route('siswa.update', [$outlet, $siswa->id]) }}" enctype="multipart/form-data" accept-charset="UTF-8">

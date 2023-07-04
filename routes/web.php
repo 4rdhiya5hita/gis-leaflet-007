@@ -10,33 +10,39 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 // use Illuminate\Routing\Route;
 
-use App\Http\Controllers\GuruController;
+use App\Http\Controllers\DataController;
+use Illuminate\Support\Facades\Route;
 
-Route::get('/', 'OutletMapController@index')->name('outlet.index');
+Route::get('/', 'OutletMapController@index')->name('outlet_map.index');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 // Outlets Routes
-Route::get('/our_outlets', 'OutletMapController@index')->name('outlet_map.index');
+Route::get('/map_sekolah_cluster', 'OutletMapController@cluster')->name('outlet_map.cluster');
+Route::get('/sekolahs', 'OutletMapController@index')->name('outlet_map.index');
 Route::resource('outlets', 'OutletController');
 
 //Route AJAX
 Route::get('siswa/{outlet}/{tahun}', 'OutletController@getSiswaTahun')->name('siswa.tahun');
-Route::get('siswa_create/siswa_kelas', 'SiswaController@getSiswaKelas');
+Route::get('data/{outlet}/{sekolah}', 'OutletController@getSekolah')->name('sekolah.sekolah');;
+// Route::get('/data/{sekolah}', 'OutletController@getData')->name('data.sekolah');
+// Route::get('siswa_create/siswa_kelas', 'SiswaController@getSiswaKelas');
 
 
 // //dipakai
-// Route::get('/', 'OutletMapController@index')->name('outlet_map.index');
+
+// Route::get('/map_sekolah_cluster', 'OutletMapController@index')->name('outlet_map.index');
 
 // // Route::get('/our_outlets', 'OutletMapController@index');
 // Route::resource('outlets', 'OutletController');
+Route::get('/data', 'DataController@index')->name('data.index');
 Route::get('/guru_create/{outlet}', 'GuruController@create')->name('guru.create');
 Route::post('/guru_store/{outlet}', 'GuruController@store')->name('guru.store')->middleware('auth');
+Route::get('/guru_detail/{outlet}/{id}', 'GuruController@detail')->name('guru.detail');
 Route::get('/guru_edit/{outlet}/{id}', 'GuruController@edit')->name('guru.edit');
 Route::post('/guru_update/{outlet}/{id}', 'GuruController@update')->name('guru.update')->middleware('auth');
 Route::post('/guru_delete/{outlet}/{id}', 'GuruController@delete')->name('guru.delete')->middleware('auth');

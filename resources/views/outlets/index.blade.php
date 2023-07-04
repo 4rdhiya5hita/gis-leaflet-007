@@ -33,7 +33,7 @@
                         <tr>
                             <th class="text-center">{{ __('app.table_no') }}</th>
                             <th>{{ __('outlet.name') }}</th>
-                            <th>{{ __('outlet.address') }}</th>
+                            <th>{{ __('outlet.alamat') }}</th>
                             <th>{{ __('outlet.latitude') }}</th>
                             <th>{{ __('outlet.longitude') }}</th>
                             <th class="text-center">{{ __('app.action') }}</th>

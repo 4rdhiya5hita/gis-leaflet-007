@@ -16,6 +16,36 @@ class OutletMapController extends Controller
     public function index(Request $request)
     {
         $data = Outlet::all();
-        return view('outlets.map', compact('data'));
+        $addressPoints = [];
+
+        $outlets = Outlet::select('latitude', 'longitude')->get();
+
+        foreach ($outlets as $outlet) {
+            $addressPoints[] = [
+                'latitude' => $outlet->latitude,
+                'longitude' => $outlet->longitude,
+            ];
+        }
+        
+        // return view('outlets.map', compact('data'));
+        return view('outlets.cluster', compact('addressPoints', 'data'));
     }
+
+    public function cluster()
+    {
+        $data = Outlet::all();
+        $addressPoints = [];
+
+        $outlets = Outlet::select('latitude', 'longitude')->get();
+
+        foreach ($outlets as $outlet) {
+            $addressPoints[] = [
+                'latitude' => $outlet->latitude,
+                'longitude' => $outlet->longitude,
+            ];
+        }
+
+        return view('outlets.cluster', compact('addressPoints', 'data'));
+    }
+
 }

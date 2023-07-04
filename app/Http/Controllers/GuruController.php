@@ -12,8 +12,19 @@ class GuruController extends Controller
 {
     public function create($outlet)
     {
-        $jabatans = Jabatan::all();
         $school = Outlet::find($outlet);        
+        // $jabatans = Jabatan::whereNotIn('id', Guru::where('school_id', $outlet)->whereIn('status_aktif', ['aktif', 'tidak_aktif'])->pluck('jabatan_id')->toArray())
+        // ->pluck('id')
+        // ->toArray();
+        $jabatans = DB::table('jabatans')
+            ->whereNotIn('id', function ($query) use ($outlet) {
+                $query->select('jabatan_id')
+                      ->from('gurus')
+                      ->where('school_id', $outlet)
+                      ->whereIn('status_aktif', ['aktif', 'tidak_aktif']);
+            })
+            ->get();
+        // dd($jabatans);
         $status_aktif = ['aktif', 'tidak aktif', 'pensiun', 'berhenti', 'pindah'];
 
         return view('guru.create', compact('jabatans', 'outlet', 'school', 'status_aktif'));
@@ -31,11 +42,13 @@ class GuruController extends Controller
             'sertifikasi'   => 'nullable|max:255',
             'jabatan'   => 'nullable|max:255',
             'status_aktif'   => 'nullable|max:20',
+            'masa_jabatan_awal'   => 'nullable|date',
+            'masa_jabatan_akhir'   => 'nullable|date',
         ]);
 
         DB::table('gurus')->insert([
-            'name'      => $newGuru['name'],
-            'nip'    => $newGuru['nip'],
+            'name' => $newGuru['name'],
+            'nip' => $newGuru['nip'],
             'email' => $newGuru['email'],
             'jenis_kelamin' => $newGuru['jenis_kelamin'],
             'status' => $newGuru['status'],
@@ -43,6 +56,8 @@ class GuruController extends Controller
             'sertifikasi' => $newGuru['sertifikasi'],
             'jabatan_id' => $newGuru['jabatan'],
             'status_aktif' => $newGuru['status_aktif'],
+            'masa_jabatan_awal' => $newGuru['masa_jabatan_awal'],
+            'masa_jabatan_akhir' => $newGuru['masa_jabatan_akhir'],
             'school_id' => $outlet,
             // Add more fields and their values as needed
         ]);
@@ -55,20 +70,35 @@ class GuruController extends Controller
         return redirect()->route('outlets.show', $outlet);
     }
 
+    public function detail($outlet, $id) 
+    {
+        $guru = Guru::find($id);
+
+        return view('guru.detail', compact('guru', 'outlet'));
+    }
+
     public function edit($outlet, $id)
     {
-        $jabatans = Jabatan::all();
         $school = Outlet::find($outlet);
         $guru = Guru::find($id);
+        $jabatans = DB::table('jabatans')
+            ->whereNotIn('id', function ($query) use ($outlet) {
+                $query->select('jabatan_id')
+                      ->from('gurus')
+                      ->where('school_id', $outlet)
+                      ->whereIn('status_aktif', ['aktif', 'tidak_aktif']);
+            })
+            ->get();
+
         $golongan = ['I', 'II', 'III', 'IV', 'V'];
         $status_aktif = ['aktif', 'tidak aktif', 'pensiun', 'berhenti', 'pindah'];
         // dd($guru);
 
-        return view('guru.edit', compact('jabatans', 'outlet', 'school', 'guru', 'golongan','status_aktif'));
+        return view('guru.edit', compact('jabatans', 'outlet', 'school', 'guru', 'golongan', 'status_aktif'));
     }
 
     public function update(Request $request, $outlet, $id)
-    {        
+    {                
         $request->validate([
             'name'      => 'required|max:60',
             'nip'   => 'nullable|max:255',
@@ -79,6 +109,8 @@ class GuruController extends Controller
             'sertifikasi'   => 'nullable|max:255',
             'jabatan'   => 'nullable|max:255',
             'status_aktif'   => 'nullable|max:20',
+            'masa_jabatan_awal'   => 'nullable|date',
+            'masa_jabatan_akhir'   => 'nullable|date',
         ]);
 
         $update_guru = Guru::find($id);
@@ -91,6 +123,8 @@ class GuruController extends Controller
         $update_guru->sertifikasi = $request->sertifikasi;
         $update_guru->jabatan_id = $request->jabatan;
         $update_guru->status_aktif = $request->status_aktif;
+        $update_guru->masa_jabatan_awal = $request->masa_jabatan_awal;
+        $update_guru->masa_jabatan_akhir = $request->masa_jabatan_akhir;
         $update_guru->save();
 
         return redirect()->route('outlets.show', $outlet);

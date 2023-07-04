@@ -6,9 +6,9 @@
 <!-- <p style="background-image: url('/img/background.png'); width:1200px; height:680px"> -->
 <div style="background-image: url('/img/bg-peta.jpg'); background-size: cover; height: fit-content;">
     <div class="container" style="display: flex;justify-content: center;">
-        <div class="col-md-6">
+        <div class="col-md-6 mb-3">
             <div class="card justify-content-center">
-                <div class="card-header bg-primary font-weight-bold" style="color: white; font-size:large;">Create Siswa</div>
+                <div class="card-header bg-primary font-weight-bold" style="color: white; font-size:large;">Tambah Siswa</div>
                 <form method="POST" action="{{ route('siswa.store', $outlet) }}" enctype="multipart/form-data" accept-charset="UTF-8">
                     {{ csrf_field() }}
                     <div class="card-body">
@@ -17,11 +17,8 @@
                             <input id="school" type="text" class="form-control{{ $errors->has('school') ? ' is-invalid' : '' }}" name="school" value="{{ $school->name }}" required disabled>
                             {!! $errors->first('school', '<span class="invalid-feedback" role="alert">:message</span>') !!}
                         </div>
-                    </div>
-                    <div class="card-body">
                         <div class="form-group">
                             <label for="tahun" class="control-label">Tahun</label>
-                            <!-- <input id="tahun" type="number" class="form-control{{ $errors->has('tahun') ? ' is-invalid' : '' }}" name="tahun" value="{{ old('tahun') }}" min="1900" max="2099" required> -->
                             <select name="tahun" id="tahun" class="form-control">
                             @for($i = 2020; $i < 2030; $i++)
                                 <option value="{{ $i }}">{{ $i }}</option>
